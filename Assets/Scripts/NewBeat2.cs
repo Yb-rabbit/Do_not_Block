@@ -17,6 +17,7 @@ public class NewBeat2 : MonoBehaviour
     public RectTransform gameArea;      // UI Panel 的 RectTransform（白色背景）
     public Text scoreText;
     public GameObject gameOverPanel;
+    public GameObject ColorControlObject;
 
     class PoolItem
     {
@@ -149,6 +150,17 @@ public class NewBeat2 : MonoBehaviour
         item.clicked = true;
         if (item.img != null) item.img.color = Color.gray;
         if (item.btn != null) item.btn.interactable = false;
+
+        // 变色反馈
+        ColorControl colorControl = gameArea.GetComponent<ColorControl>();
+        if (colorControl != null)
+        {
+            colorControl.OnScore(); // 调用变色逻辑
+        }
+        else
+        {
+            Debug.LogWarning("[NewBeat2] 未找到 ColorControl 脚本，请检查是否挂载到 gameArea。");
+        }
     }
 
     void DeactivateItem(PoolItem item)
