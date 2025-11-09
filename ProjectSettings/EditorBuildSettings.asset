@@ -8,5 +8,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Trip2.unity
     guid: 2fb2a40d0b17aef4abf7cec25b5cc82d
+  - enabled: 1
+    path: Assets/Scenes/In3D.unity
+    guid: ae429157364d32a448e3f56364c570b8
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

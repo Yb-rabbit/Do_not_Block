@@ -23,7 +23,11 @@ public class RhythmGenerator : MonoBehaviour
     {
         if (fourBeat3 != null)
         {
-            fourBeat3.SetRhythmGenerator(this); // 将生成器传递给 FourBeat3
+            fourBeat3.SetRhythmGenerator(this); // 将 RhythmGenerator 传递给 FourBeat3
+        }
+        else
+        {
+            Debug.LogError("FourBeat3 未正确设置！");
         }
     }
 

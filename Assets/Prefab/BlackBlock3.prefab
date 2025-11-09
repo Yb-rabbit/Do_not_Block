@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5216907824290133524}
   - component: {fileID: 1263312601418394887}
   - component: {fileID: 7367439175734351968}
+  - component: {fileID: 9005293532609624022}
   m_Layer: 0
   m_Name: BlackBlock3
   m_TagString: Untagged
@@ -121,3 +122,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   judgmentPoint: {fileID: 0}
+  column: 4
+  collisionThreshold: 0.1
+--- !u!114 &9005293532609624022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8645529547034757483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83c8006ec4ad7e7469d577472959bafd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

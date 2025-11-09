@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3458750704050495122}
   - component: {fileID: 6102278425472586831}
   - component: {fileID: 6838384626051513494}
+  - component: {fileID: 2273817585918278398}
   m_Layer: 0
   m_Name: CubeBl
   m_TagString: Untagged
@@ -121,3 +122,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   judgmentPoint: {fileID: 0}
+  column: 0
+  collisionThreshold: 0.1
+--- !u!114 &2273817585918278398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871484447558289863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83c8006ec4ad7e7469d577472959bafd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

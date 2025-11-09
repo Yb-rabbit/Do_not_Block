@@ -33,6 +33,14 @@ public class FourBeat3 : MonoBehaviour
             return;
         }
 
+        // 检查 rhythmGenerator 是否已初始化
+        if (rhythmGenerator == null)
+        {
+            Debug.LogError("RhythmGenerator 未初始化！请调用 SetRhythmGenerator 方法。");
+            enabled = false;
+            return;
+        }
+
         // 初始化对象池
         for (int i = 0; i < poolSize; i++)
         {

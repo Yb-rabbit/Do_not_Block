@@ -180,7 +180,7 @@ public class NewBeat2 : MonoBehaviour
 
     void UpdateScoreUI()
     {
-        if (scoreText) scoreText.text = $"得分: {score}";
+        if (scoreText) scoreText.text = $"Score: {score}";
     }
 
     // 可从 Inspector 调用以重置
