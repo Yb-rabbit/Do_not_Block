@@ -1948,10 +1948,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blackBlockPrefab: {fileID: 871484447558289863, guid: 98cf128569ac1e844b33546dd3529770, type: 3}
   spawnPoints:
-  - {fileID: 693056516}
-  - {fileID: 1420397608}
-  - {fileID: 125398568}
-  - {fileID: 1484331841}
+  - {fileID: 2124362397}
+  - {fileID: 709728311}
+  - {fileID: 1015289084}
+  - {fileID: 113019825}
   judgmentPoint: {fileID: 1426678281}
   audioSource: {fileID: 1311131383}
   bpm: 120
