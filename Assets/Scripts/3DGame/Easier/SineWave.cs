@@ -1,9 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FourBeatRhythm : MonoBehaviour
+public class SineWave : MonoBehaviour
 {
     public GameObject blackBlockPrefab; // 黑块预制体
     public Transform[] spawnPoints; // 四列生成点
@@ -23,11 +23,21 @@ public class FourBeatRhythm : MonoBehaviour
     private List<GameObject> activeBlocks = new List<GameObject>(); // 活跃的黑块列表
     private int score = 0; // 当前得分
 
+    // 正弦波参数
+    private float amplitude = 1f; // 振幅
+    private float frequency = 1f; // 频率
+    private float[] columnOffsets; // 每列的时间偏移量
+
     void Start()
     {
         beatInterval = 60f / bpm; // 计算每拍的时间间隔
         nextBeatTime = Time.time; // 初始化下一拍时间
         currentSpeed = baseSpeed; // 初始化下落速度
+        columnOffsets = new float[spawnPoints.Length]; // 初始化每列的时间偏移量
+        for (int i = 0; i < columnOffsets.Length; i++)
+        {
+            columnOffsets[i] = Random.Range(0f, Mathf.PI * 2); // 为每列生成一个随机的时间偏移
+        }
         UpdateScoreUI(); // 初始化 UI 显示
     }
 
@@ -53,12 +63,18 @@ public class FourBeatRhythm : MonoBehaviour
     void SpawnBlock()
     {
         int randomColumn = Random.Range(0, spawnPoints.Length); // 随机选择一列
-        GameObject block = Instantiate(blackBlockPrefab, spawnPoints[randomColumn].position, Quaternion.identity);
+        Vector3 spawnPosition = spawnPoints[randomColumn].position;
+
+        // 根据正弦波绝对值计算 Y 轴偏移
+        float sineOffset = Mathf.Abs(Mathf.Sin(Time.time * frequency + columnOffsets[randomColumn])) * amplitude;
+        spawnPosition.y += sineOffset;
+
+        GameObject block = Instantiate(blackBlockPrefab, spawnPosition, Quaternion.identity);
         activeBlocks.Add(block); // 添加到活跃黑块列表
 
         // 添加鼠标点击检测
         BlackBlock3D blackBlock = block.AddComponent<BlackBlock3D>();
-        blackBlock.Initialize(null, judgmentPoint); // 初始化 BlackBlock3D
+        blackBlock.Initialize(this, judgmentPoint);
     }
 
     void AdjustSpeedBasedOnRhythm()
@@ -116,7 +132,7 @@ public class FourBeatRhythm : MonoBehaviour
     {
         if (scoreText != null)
         {
-            scoreText.text = $"{score}"; // 更新 UI 文本
+            scoreText.text = $"- {score} -"; // 更新 UI 文本
         }
     }
 }

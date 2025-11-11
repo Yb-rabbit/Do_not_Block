@@ -1,15 +1,18 @@
+using System;
 using UnityEngine;
 
 public class BlackBlock3D : MonoBehaviour
 {
-    private FourBeatRhythm gameController; // 游戏控制器引用
-    private Transform judgmentPoint; // 判定点引用
-    private bool isClickedOrNear = false; // 是否已点击或靠近判定点
+    private SineWave sineWaveController;
+    private Transform judgmentPoint;
+    private bool isClickedOrNear;
 
-    public void Initialize(FourBeatRhythm controller, Transform judgment)
+    // 实现 Initialize 方法
+    public void Initialize(SineWave sineWave, Transform judgment)
     {
-        gameController = controller;
+        sineWaveController = sineWave;
         judgmentPoint = judgment;
+        isClickedOrNear = false; // 初始化状态
     }
 
     void Update()
@@ -24,24 +27,24 @@ public class BlackBlock3D : MonoBehaviour
 
     void OnMouseDown()
     {
-        if (!isClickedOrNear)
-        {
-            ChangeColor(); // 变色
-            isClickedOrNear = true;
-        }
+        // 示例实现：当鼠标点击时，设置 isClickedOrNear 为 true
+        isClickedOrNear = true;
+        ChangeColor(); // 改变颜色以反馈点击
     }
 
     public bool IsClickedOrNear()
     {
+        // 示例实现：返回是否被点击或靠近
         return isClickedOrNear;
     }
 
     private void ChangeColor()
     {
+        // 示例实现：改变黑块的颜色
         Renderer renderer = GetComponent<Renderer>();
         if (renderer != null)
         {
-            renderer.material.color = Color.gray; // 将颜色变为灰色
+            renderer.material.color = Color.gray; // 点击后变色
         }
     }
 }

@@ -1138,10 +1138,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -1886,6 +1886,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1459577495}
   - component: {fileID: 1459577494}
+  - component: {fileID: 1459577496}
   m_Layer: 0
   m_Name: Manager2
   m_TagString: Untagged
@@ -1900,7 +1901,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1459577493}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fb89eea7567ba8e4895a8e7fddb25fb9, type: 3}
   m_Name: 
@@ -1933,6 +1934,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1459577496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459577493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ab76f74417567f4eb3d1983e96c800b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blackBlockPrefab: {fileID: 871484447558289863, guid: 98cf128569ac1e844b33546dd3529770, type: 3}
+  spawnPoints:
+  - {fileID: 693056516}
+  - {fileID: 1420397608}
+  - {fileID: 125398568}
+  - {fileID: 1484331841}
+  judgmentPoint: {fileID: 1426678281}
+  audioSource: {fileID: 1311131383}
+  bpm: 120
+  baseSpeed: 2
+  maxSpeed: 6
+  sensitivity: 5
+  scoreText: {fileID: 1768388036}
 --- !u!1 &1484331840
 GameObject:
   m_ObjectHideFlags: 0
@@ -2138,7 +2164,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
-    m_MaxSize: 90
+    m_MaxSize: 70
     m_Alignment: 4
     m_AlignByGeometry: 1
     m_RichText: 1
