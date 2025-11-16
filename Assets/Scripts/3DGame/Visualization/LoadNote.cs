@@ -22,6 +22,8 @@ public class LoadNote : MonoBehaviour
     public float timeOffset = 0f;
     public float pitchOffset = 0f;
     public float channelSpacing = 1.0f;
+    [Tooltip("音高到高度的缩放系数：localHeight = pitch * pitchScale + pitchOffset")]
+    public float pitchScale = 1f;
 
     [Header("尺寸与外观")]
     [Tooltip("默认截面尺寸（仅在不使用预制体截面时作为Y/Z基准；或用于内置Cube）。")]
@@ -277,7 +279,7 @@ public class LoadNote : MonoBehaviour
 
         Vector3 basePos =
             timeAxis.normalized * (data.time + timeOffset) +
-            pitchAxis.normalized * (data.pitch + pitchOffset) +
+            pitchAxis.normalized * (data.pitch * pitchScale + pitchOffset) +
             channelAxis.normalized * (data.channel * channelSpacing);
         go.transform.localPosition = basePos;
 
@@ -375,7 +377,7 @@ public class LoadNote : MonoBehaviour
                     // 重新计算基础位置
                     e.baseLocalPos =
                         timeAxis.normalized * (e.data.time + timeOffset) +
-                        pitchAxis.normalized * (e.data.pitch + pitchOffset) +
+                        pitchAxis.normalized * (e.data.pitch * pitchScale + pitchOffset) +
                         channelAxis.normalized * (e.data.channel * channelSpacing);
                 }
             }
