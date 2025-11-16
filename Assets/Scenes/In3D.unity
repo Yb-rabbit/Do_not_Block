@@ -248,7 +248,8 @@ MonoBehaviour:
   - {fileID: 1071763711}
   - {fileID: 1748170041}
   - {fileID: 1872185939}
-  moveSpeed: 50
+  pointKeys: 64000000660000006a0000006b000000
+  moveSpeed: 100
 --- !u!65 &7176341
 BoxCollider:
   m_ObjectHideFlags: 0

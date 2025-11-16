@@ -6,16 +6,33 @@ public class CharControl : MonoBehaviour
     // 可选的目标点列表
     public List<Transform> selectablePoints;
 
+    // 每个目标点对应的键位
+    public List<KeyCode> pointKeys;
+
     // 移动速度
     public float moveSpeed = 5f;
 
     // 当前目标点
     private Transform targetPoint;
 
+    // 是否由键盘控制
+    private bool isKeyboardControl = false;
+
     void Update()
     {
-        // 检测鼠标点击
-        if (Input.GetMouseButtonDown(0))
+        // 检测键盘输入
+        for (int i = 0; i < pointKeys.Count && i < selectablePoints.Count; i++)
+        {
+            if (Input.GetKeyDown(pointKeys[i]))
+            {
+                targetPoint = selectablePoints[i];
+                isKeyboardControl = true; // 激活键盘控制
+                break;
+            }
+        }
+
+        // 如果不是键盘控制，检测鼠标点击
+        if (!isKeyboardControl && Input.GetMouseButtonDown(0))
         {
             // 获取鼠标点击的世界坐标
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -61,6 +78,7 @@ public class CharControl : MonoBehaviour
         if (Vector3.Distance(transform.position, targetPoint.position) < 0.1f)
         {
             targetPoint = null;
+            isKeyboardControl = false; // 停止移动后，解除键盘控制
         }
     }
 }
