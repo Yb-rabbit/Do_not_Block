@@ -789,7 +789,11 @@ MonoBehaviour:
   - {fileID: 565576712}
   - {fileID: 1423772414}
   - {fileID: 1316989803}
-  moveSpeed: 50
+  pointKeys: 64000000660000006a0000006b000000
+  moveSpeed: 80
+  horizontalMoveSpeed: 50
+  freeMoveReleaseDelay: 0.15
+  useLocalHorizontal: 0
 --- !u!65 &1556548714
 BoxCollider:
   m_ObjectHideFlags: 0
