@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class ReBuild : MonoBehaviour
 {
@@ -17,6 +19,14 @@ public class ReBuild : MonoBehaviour
 
     [Header("UI 设置")]
     [SerializeField] private GameObject uiPanel;                      // 触发时显示的 UI 面板
+
+    [Header("音频设置")]
+    [SerializeField] private bool playAudioOnPause = true;            // UI 面板出现时播放音频
+    [SerializeField] private AudioClip uiShowClip;                    // 指定音频
+    [SerializeField] private bool loopAudio = false;                  // 是否循环
+    [SerializeField] private bool stopAudioOnResume = true;           // 恢复时停止
+    [SerializeField] private bool audioIgnoreListenerPause = true;    // 在 AudioListener.pause = true 仍播放
+    [SerializeField] private AudioSource uiAudioSource;               // 用于播放的 AudioSource（可自动生成）
 
     [Header("调试/便捷")]
     [SerializeField] private bool enableResumeHotkey = true;
@@ -47,6 +57,35 @@ public class ReBuild : MonoBehaviour
         _startPosition = Target.position;
         _startRotation = Target.rotation;
         CacheSceneComponents();
+        EnsureUIAudioSource();
+    }
+
+    private void OnValidate()
+    {
+        // 编辑器修改参数时保持 AudioSource 同步
+        if (uiAudioSource != null)
+        {
+            uiAudioSource.loop = loopAudio;
+            uiAudioSource.playOnAwake = false;
+            uiAudioSource.ignoreListenerPause = audioIgnoreListenerPause;
+        }
+    }
+
+    private void EnsureUIAudioSource()
+    {
+        if (uiAudioSource == null && uiPanel != null)
+        {
+            uiAudioSource = uiPanel.GetComponent<AudioSource>();
+            if (uiAudioSource == null)
+                uiAudioSource = uiPanel.AddComponent<AudioSource>();
+        }
+
+        if (uiAudioSource != null)
+        {
+            uiAudioSource.playOnAwake = false;
+            uiAudioSource.loop = loopAudio;
+            uiAudioSource.ignoreListenerPause = audioIgnoreListenerPause;
+        }
     }
 
     [System.Obsolete]
@@ -163,6 +202,29 @@ public class ReBuild : MonoBehaviour
         }
 
         if (uiPanel != null) uiPanel.SetActive(true);
+
+        PlayPauseUIPanelAudio();
+    }
+
+    private void PlayPauseUIPanelAudio()
+    {
+        if (!playAudioOnPause) return;
+        if (uiAudioSource == null || uiShowClip == null) return;
+
+        uiAudioSource.ignoreListenerPause = audioIgnoreListenerPause;
+
+        if (loopAudio)
+        {
+            if (uiAudioSource.clip != uiShowClip)
+                uiAudioSource.clip = uiShowClip;
+            uiAudioSource.loop = true;
+            uiAudioSource.Play();
+        }
+        else
+        {
+            // 使用 PlayOneShot 避免替换已有 clip 配置
+            uiAudioSource.PlayOneShot(uiShowClip);
+        }
     }
 
     public void ResumeAllAndHideUI()
@@ -193,6 +255,11 @@ public class ReBuild : MonoBehaviour
 
         Time.timeScale = _prevTimeScale;
         AudioListener.pause = _prevAudioPaused;
+
+        if (stopAudioOnResume && uiAudioSource != null)
+        {
+            uiAudioSource.Stop();
+        }
 
         if (uiPanel != null) uiPanel.SetActive(false);
     }

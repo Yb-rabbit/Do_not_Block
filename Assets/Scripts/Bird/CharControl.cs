@@ -18,6 +18,13 @@ public class CharControl : MonoBehaviour
     // 是否到达目标点后自动选最近点作为当前索引（仅在 useListOrder = false 下首次使用方向键时计算）
     public bool autoInitializeIndexFromNearest = true;
 
+    // 若存在刚体则优先使用刚体移动；无刚体时自动退回 Transform 移动
+    [Header("Rigidbody 检测与移动")]
+    public bool useRigidbodyIfAvailable = true;
+
+    // 仅在使用刚体移动时，是否在启动时自动建议物理参数（仅日志提示，不强制修改）
+    public bool logRigidbodyHints = true;
+
     // 当前正在前往的目标点
     private Transform targetPoint;
 
@@ -27,12 +34,49 @@ public class CharControl : MonoBehaviour
     // 是否由方向键或映射键控制（移动过程中屏蔽鼠标）
     private bool isPointKeyControl = false;
 
+    // 缓存刚体（若存在）
+    private Rigidbody rb;
+
+    void Awake()
+    {
+        TryGetComponent(out rb);
+        if (useRigidbodyIfAvailable && rb != null && logRigidbodyHints)
+        {
+            // 给出一次性配置建议（不做强制更改，避免破坏现有场景配置）
+            if (rb.interpolation == RigidbodyInterpolation.None)
+            {
+                Debug.Log($"[CharControl] 建议将刚体插值设为 Interpolate 以获得更平滑的可视移动（对象: {name}）。");
+            }
+            if (rb.collisionDetectionMode == CollisionDetectionMode.Discrete && moveSpeed > 6f)
+            {
+                Debug.Log($"[CharControl] 速度较高时建议使用 Continuous/ContinuousDynamic 以减少穿透（对象: {name}）。");
+            }
+            if (!rb.freezeRotation)
+            {
+                Debug.Log($"[CharControl] 若不需旋转响应，建议勾选 Freeze Rotation，避免因碰撞导致角度变化（对象: {name}）。");
+            }
+        }
+    }
+
     void Update()
     {
         HandleArrowKeyNavigation();
         HandleDirectPointKeyInput();
         HandleMouseInput();
-        MoveTowardsTarget();
+
+        // 无刚体或未启用刚体移动时，使用 Transform 移动；否则由 FixedUpdate 中的刚体移动处理
+        if (!useRigidbodyIfAvailable || rb == null)
+        {
+            MoveTowardsTargetTransform();
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (useRigidbodyIfAvailable && rb != null)
+        {
+            MoveTowardsTargetPhysics();
+        }
     }
 
     // 方向键选择下一个/上一个目标点（不再进行自由移动）
@@ -90,7 +134,8 @@ public class CharControl : MonoBehaviour
         }
     }
 
-    private void MoveTowardsTarget()
+    // 非物理（Transform）移动
+    private void MoveTowardsTargetTransform()
     {
         if (targetPoint == null) return;
 
@@ -100,6 +145,27 @@ public class CharControl : MonoBehaviour
             moveSpeed * Time.deltaTime);
 
         if (Vector3.Distance(transform.position, targetPoint.position) < 0.01f)
+        {
+            // 到达
+            targetPoint = null;
+            isPointKeyControl = false;
+        }
+    }
+
+    // 物理（Rigidbody.MovePosition）移动
+    private void MoveTowardsTargetPhysics()
+    {
+        if (targetPoint == null) return;
+
+        Vector3 current = rb.position;
+        Vector3 next = Vector3.MoveTowards(
+            current,
+            targetPoint.position,
+            moveSpeed * Time.fixedDeltaTime);
+
+        rb.MovePosition(next);
+
+        if (Vector3.Distance(next, targetPoint.position) < 0.01f)
         {
             // 到达
             targetPoint = null;
@@ -218,5 +284,12 @@ public class CharControl : MonoBehaviour
             }
         }
         return nearest;
+    }
+
+    // 对外提供的刚体检测接口
+    public bool TryGetCurrentRigidbody(out Rigidbody body)
+    {
+        body = rb;
+        return body != null;
     }
 }
