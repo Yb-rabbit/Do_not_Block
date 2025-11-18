@@ -26,7 +26,6 @@ public class LoadNote : MonoBehaviour
     public float pitchScale = 1f;
 
     [Header("尺寸与外观")]
-    [Tooltip("默认截面尺寸（仅在不使用预制体截面时作为Y/Z基准；或用于内置Cube）。")]
     public Vector3 baseSize = new(0.2f, 0.2f, 0.2f);
     public bool colorByPitch = true;
     public bool tintByChannel = true;
@@ -47,17 +46,12 @@ public class LoadNote : MonoBehaviour
     public bool destroyPassedNotes = false; // 在 procedural 模式下通常 false，以循环复用
 
     [Header("淡入淡出方式")]
-    [Tooltip("通过缩放非时间轴的两个维度实现淡入淡出(不依赖透明材质)")]
     public bool fadeByScale = true;
-    [Tooltip("通过颜色Alpha淡入淡出(需要材质支持透明)")]
     public bool fadeByAlpha = false;
 
     [Header("尺寸来源/轴映射")]
-    [Tooltip("使用预制体自身的截面尺寸(Y/Z 或非时间轴的两个维度)作为基准；若为 false 则使用 baseSize 作为截面基准。")]
     public bool usePrefabCrossSection = true;
-    [Tooltip("本地坐标中，用于表示“时间长度”的轴；仅在这个轴上拉伸长度。")]
     public Axis timeScaleAxis = Axis.X;
-    [Tooltip("长度最小值，避免被压扁为 0。")]
     public float minLength = 0.01f;
 
     [Header("调试")]
@@ -66,37 +60,24 @@ public class LoadNote : MonoBehaviour
 
     #region 随机循环波浪参数
     [Header("随机循环波浪 - 基础")]
-    [Tooltip("循环长度(时间单位)。波前时间超过该值会继续增长，但音符时间循环或重置。")]
     public float loopLength = 16f;
-    [Tooltip("每个通道每秒生成的基础音符数(用于初始预生成密度)。")]
     public float notesPerSecondPerChannel = 4f;
-    [Tooltip("时间抖动幅度(秒)，用于打散均匀分布。")]
     public float timeJitter = 0.05f;
-    [Tooltip("持续时间范围")]
     public Vector2 durationRange = new(0.2f, 0.6f);
-    [Tooltip("音高范围")]
     public Vector2Int pitchRange = new(48, 84);
-    [Tooltip("重新循环时是否重新随机(否则保持首次生成的模式)")]
     public bool regenerateOnRecycle = true;
-    [Tooltip("固定随机种子(>=0 时启用确定性)")]
     public int randomSeed = 1234;
 
     [Header("波形调制 (正弦叠加到音高)")]
-    [Tooltip("是否对音高添加正弦波形")]
     public bool wavePitchSine = true;
-    [Tooltip("正弦振幅(音高偏移)")]
     public float sineAmplitude = 6f;
-    [Tooltip("正弦频率(周期/秒 或 时间单位)")]
     public float sineFrequency = 0.5f;
-    [Tooltip("不同通道的相位偏移")]
     public float sinePhaseOffsetPerChannel = 0.7f;
 
     [Header("动态前方填充")]
-    [Tooltip("在波前前方保证的最小填充时间(用于运行时继续生成/循环)")]
     public float ensureAheadFill = 10f;
 
     [Header("运行时长度调整")]
-    [Tooltip("是否允许在运行时动态调整音符长度")]
     public bool allowRuntimeDurationAdjust = false;
     #endregion
 
@@ -118,8 +99,6 @@ public class LoadNote : MonoBehaviour
         public Renderer renderer;
         public Color baseColor;
         public bool active = true;
-
-        // 预制体原始“截面”基准（非时间轴两个维度的基准缩放；时间轴的基准也保留，用于组合最终缩放）
         public Vector3 crossSectionBaseScale;
     }
 
@@ -162,10 +141,7 @@ public class LoadNote : MonoBehaviour
 
     private void InitRandom()
     {
-        if (randomSeed >= 0)
-            _rnd = new System.Random(randomSeed);
-        else
-            _rnd = new System.Random();
+        _rnd = randomSeed >= 0 ? new System.Random(randomSeed) : new System.Random();
     }
 
     private float NextFloat(float min, float max)
@@ -192,10 +168,7 @@ public class LoadNote : MonoBehaviour
                 float jitter = (timeJitter > 0f) ? NextFloat(-timeJitter, timeJitter) : 0f;
                 float noteTime = Mathf.Clamp(t + jitter, 0f, loopLength - 0.0001f);
 
-                // 基础随机音高
                 int pitch = NextInt(pitchRange.x, pitchRange.y);
-
-                // 波形调制
                 if (wavePitchSine)
                 {
                     float phase = (noteTime * sineFrequency * Mathf.PI * 2f) + ch * sinePhaseOffsetPerChannel;
@@ -283,10 +256,8 @@ public class LoadNote : MonoBehaviour
             channelAxis.normalized * (data.channel * channelSpacing);
         go.transform.localPosition = basePos;
 
-        // 截面基准：优先取预制体当前 localScale；否则使用 baseSize
         Vector3 crossBase = (usePrefabCrossSection && prefab != null) ? go.transform.localScale : baseSize;
 
-        // 颜色
         Renderer r = go.GetComponent<Renderer>();
         Color finalColor = Color.white;
         if (r != null)
@@ -313,7 +284,6 @@ public class LoadNote : MonoBehaviour
             crossSectionBaseScale = crossBase
         };
 
-        // 初始长度应用
         float lengthScale = (data.channel < channelDurationScale.Length) ? channelDurationScale[data.channel] : 1f;
         float length = data.duration * lengthScale;
         ApplyLengthAndCrossSection(entry, length, 1f);
@@ -323,7 +293,6 @@ public class LoadNote : MonoBehaviour
 
     void Update()
     {
-        // 更新波前时间
         if (scrollEnabled)
         {
             if (useAudioTime && audioSource != null)
@@ -344,7 +313,7 @@ public class LoadNote : MonoBehaviour
                 continue;
             }
 
-            // 循环复用逻辑（仅在 procedural 模式下）
+            // 循环复用逻辑（仅 procedural 且不销毁）
             if (proceduralMode && !destroyPassedNotes)
             {
                 float relFront = (e.data.time + timeOffset) - waveFrontTime;
@@ -374,7 +343,6 @@ public class LoadNote : MonoBehaviour
                             e.renderer.material.color = c;
                         }
                     }
-                    // 重新计算基础位置
                     e.baseLocalPos =
                         timeAxis.normalized * (e.data.time + timeOffset) +
                         pitchAxis.normalized * (e.data.pitch * pitchScale + pitchOffset) +
@@ -382,7 +350,7 @@ public class LoadNote : MonoBehaviour
                 }
             }
 
-            // 滚动位置（波前推进）
+            // 滚动位置
             e.go.transform.localPosition = e.baseLocalPos - timeN * waveFrontTime;
 
             float rel = (e.data.time + timeOffset) - waveFrontTime;
@@ -414,7 +382,6 @@ public class LoadNote : MonoBehaviour
                 e.active = true;
             }
 
-            // 每帧应用长度与淡入淡出到“仅时间轴”方向；截面来自预制体或 baseSize
             float lengthScaleNow = (e.data.channel < channelDurationScale.Length) ? channelDurationScale[e.data.channel] : 1f;
             float lengthNow = e.data.duration * lengthScaleNow;
 
@@ -433,7 +400,6 @@ public class LoadNote : MonoBehaviour
 
             ApplyLengthAndCrossSection(e, lengthNow, fade);
 
-            // Alpha 渐变（可选，材质需支持透明）
             if (fadeByAlpha && e.renderer != null)
             {
                 _mpb.Clear();
@@ -484,19 +450,16 @@ public class LoadNote : MonoBehaviour
 
     private static int AxisIndex(Axis a) => a == Axis.X ? 0 : (a == Axis.Y ? 1 : 2);
 
-    // 将“时间长度”只作用在指定本地轴；截面(Y/Z或非时间轴两维)来自预制体或 baseSize。
     private void ApplyLengthAndCrossSection(SpawnedEntry e, float length, float fade)
     {
         int idx = AxisIndex(timeScaleAxis);
         Vector3 s = e.crossSectionBaseScale;
 
-        // 长度轴设置
         float L = Mathf.Max(length, minLength);
         if (idx == 0) s.x = L;
         else if (idx == 1) s.y = L;
         else s.z = L;
 
-        // 截面淡入淡出（仅非时间轴两个维度）
         if (fadeByScale)
         {
             float f = Mathf.Clamp01(fade);
@@ -506,7 +469,6 @@ public class LoadNote : MonoBehaviour
         }
         else
         {
-            // 保持截面为基准尺寸
             if (idx != 0) s.x = e.crossSectionBaseScale.x;
             if (idx != 1) s.y = e.crossSectionBaseScale.y;
             if (idx != 2) s.z = e.crossSectionBaseScale.z;

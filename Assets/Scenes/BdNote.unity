@@ -1407,7 +1407,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1859195159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1432,9 +1432,9 @@ MonoBehaviour:
   - 1
   - 1
   - 1
-  timeAxis: {x: 0, y: 0, z: 1}
-  pitchAxis: {x: 1, y: 0, z: 1}
-  channelAxis: {x: 0, y: 0, z: 1}
+  timeAxis: {x: 0, y: -0.17364825, z: 0.9848077}
+  pitchAxis: {x: 0, y: 1, z: 0}
+  channelAxis: {x: 1, y: 0, z: -0}
   timeOffset: 0
   pitchOffset: 0
   channelSpacing: 1
@@ -1550,6 +1550,131 @@ Transform:
   - {fileID: 1316989803}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1924120556
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1924120559}
+  - component: {fileID: 1924120558}
+  - component: {fileID: 1924120557}
+  m_Layer: 0
+  m_Name: Controler (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1924120557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924120556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcf93f7d0212dd344838f67145d10226, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monitorTarget: {fileID: 1556548717}
+  yThreshold: -10
+  pauseOnlyOnce: 0
+  restorePositionBeforePause: 1
+  restorePoint: {fileID: 1316989803}
+  manualRestorePosition: {x: 0, y: 0, z: 0}
+  useOriginalStartIfManualIsZero: 1
+  restoreRotation: 1
+  uiPanel: {fileID: 1142275342}
+  enableResumeHotkey: 1
+  resumeKey: 114
+--- !u!114 &1924120558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924120556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 192f1f6bcfd38f349b374ab3db70d5b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  proceduralMode: 1
+  textAssetName: note1
+  channelPrefabs:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  channelDurationScale:
+  - 1
+  - 1
+  - 1
+  - 1
+  timeAxis: {x: 0, y: 0, z: 1}
+  pitchAxis: {x: 1, y: 0, z: 0}
+  channelAxis: {x: 4, y: 2, z: -0}
+  timeOffset: 0
+  pitchOffset: 0
+  channelSpacing: 1
+  pitchScale: 2
+  baseSize: {x: 0.5, y: 0.5, z: 0.5}
+  colorByPitch: 1
+  tintByChannel: 1
+  channelTint:
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.9, g: 0.9, b: 1, a: 1}
+  - {r: 1, g: 0.9, b: 0.9, a: 1}
+  - {r: 0.9, g: 1, b: 0.9, a: 1}
+  scrollEnabled: 1
+  useAudioTime: 0
+  audioSource: {fileID: 155676575}
+  audioTimeScale: 2
+  scrollSpeed: 2
+  visibleRangeBefore: 4
+  visibleRangeAfter: 8
+  fadeInRange: 0.75
+  fadeOutRange: 0.75
+  destroyPassedNotes: 0
+  fadeByScale: 1
+  fadeByAlpha: 0
+  usePrefabCrossSection: 1
+  timeScaleAxis: 2
+  minLength: 0.01
+  autoFixSeparators: 1
+  logSummary: 1
+  loopLength: 16
+  notesPerSecondPerChannel: 4
+  timeJitter: 0.02
+  durationRange: {x: 0.1, y: 1.2}
+  pitchRange: {x: -15, y: 15}
+  regenerateOnRecycle: 1
+  randomSeed: 1234
+  wavePitchSine: 1
+  sineAmplitude: 10
+  sineFrequency: 0.1
+  sinePhaseOffsetPerChannel: 1.57
+  ensureAheadFill: 10
+  allowRuntimeDurationAdjust: 1
+--- !u!4 &1924120559
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924120556}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -2.3, z: -6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1561,5 +1686,6 @@ SceneRoots:
   - {fileID: 1923993810}
   - {fileID: 155676576}
   - {fileID: 1859195160}
+  - {fileID: 1924120559}
   - {fileID: 1375149440}
   - {fileID: 1432038876}
