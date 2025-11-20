@@ -9,7 +9,13 @@ EditorBuildSettings:
     path: Assets/Scenes/Trip2.unity
     guid: 2fb2a40d0b17aef4abf7cec25b5cc82d
   - enabled: 1
+    path: Assets/Scenes/BdNote.unity
+    guid: 18b86c402bc586a41bfa5f2e5834ee9a
+  - enabled: 0
     path: Assets/Scenes/In3D.unity
     guid: ae429157364d32a448e3f56364c570b8
+  - enabled: 0
+    path: Assets/Scenes/Bird.unity
+    guid: a436b5d3a9448614e8531310feb515fc
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

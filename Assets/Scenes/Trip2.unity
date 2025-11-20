@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b6acef77e1233b41a68b7b6f54d557e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: In3D
+  sceneName: BdNote
 --- !u!114 &59259630
 MonoBehaviour:
   m_ObjectHideFlags: 0
