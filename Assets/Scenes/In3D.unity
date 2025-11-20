@@ -250,6 +250,10 @@ MonoBehaviour:
   - {fileID: 1872185939}
   pointKeys: 64000000660000006a0000006b000000
   moveSpeed: 100
+  useListOrder: 1
+  autoInitializeIndexFromNearest: 1
+  useRigidbodyIfAvailable: 1
+  logRigidbodyHints: 1
 --- !u!65 &7176341
 BoxCollider:
   m_ObjectHideFlags: 0
