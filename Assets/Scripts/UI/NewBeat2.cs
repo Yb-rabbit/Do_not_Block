@@ -192,5 +192,8 @@ public class NewBeat2 : MonoBehaviour
         foreach (var item in pool) DeactivateItem(item);
         UpdateScoreUI();
         if (gameOverPanel) gameOverPanel.SetActive(false);
+
+        // 立即生成首块，避免进入场景的空白等待
+        SpawnBlackBlock();
     }
 }

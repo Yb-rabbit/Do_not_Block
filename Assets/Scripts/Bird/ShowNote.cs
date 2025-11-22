@@ -398,6 +398,9 @@ public class ShowNote : MonoBehaviour
         bb.SetSpeedAndLength(speed, Mathf.Max(0.01f, worldBlockLength), index);
         bb.ResetBlock();
 
+        //生成黑块统计
+        ScoreShow.ReportBlackBlockSpawned();
+
         bool finished = false;
         bb.OnHit = () =>
         {

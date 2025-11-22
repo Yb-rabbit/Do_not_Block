@@ -171,6 +171,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: BdNote
+  loadAdditively: 0
+  reinitializeOriginal: 1
+  keepOriginalLoaded: 0
 --- !u!114 &59259630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -287,9 +290,9 @@ GameObject:
   m_Component:
   - component: {fileID: 100807634}
   - component: {fileID: 100807633}
-  - component: {fileID: 100807632}
   - component: {fileID: 100807636}
   - component: {fileID: 100807635}
+  - component: {fileID: 100807637}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -297,14 +300,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &100807632
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100807631}
-  m_Enabled: 1
 --- !u!20 &100807633
 Camera:
   m_ObjectHideFlags: 0
@@ -487,6 +482,14 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!81 &100807637
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100807631}
+  m_Enabled: 1
 --- !u!1 &121156337
 GameObject:
   m_ObjectHideFlags: 0
@@ -2965,6 +2968,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: Trip2
+  loadAdditively: 0
+  reinitializeOriginal: 1
+  keepOriginalLoaded: 0
 --- !u!114 &1005799549
 MonoBehaviour:
   m_ObjectHideFlags: 0

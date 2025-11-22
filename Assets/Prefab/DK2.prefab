@@ -389,7 +389,7 @@ GameObject:
   - component: {fileID: 2972294871318593539}
   m_Layer: 0
   m_Name: DK2
-  m_TagString: Untagged
+  m_TagString: BlackBlock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
