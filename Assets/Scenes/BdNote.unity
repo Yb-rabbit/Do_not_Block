@@ -347,7 +347,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.1
+      value: 0.05
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1862,7 +1862,7 @@ MonoBehaviour:
   pauseOnBgmEnd: 1
   useDspAccurateEnd: 1
   activateOnBgmEnd: {fileID: 1094700946}
-  activateDelay: 0
+  activateDelay: 1
 --- !u!1 &1094700946
 GameObject:
   m_ObjectHideFlags: 0
